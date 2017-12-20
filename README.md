@@ -84,6 +84,12 @@ To test the script, you need to set some parameters in **config.json** file.
 }
 ```
 
+
+After the configuration run this command:
+```
+python publish.py
+```
+
 ## Authors
 
 * [**Ceylan Bozogullarindan**](https://www.linkedin.com/in/ceylan-bozoğullarından-05327a102/) 
