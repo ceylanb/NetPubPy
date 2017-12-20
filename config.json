@@ -1,0 +1,41 @@
+{
+  "ftps": [
+    {
+      "active": "1",
+      "force":"0",
+      "local_path": "/Published/Project/Folder/",
+      "ftp_path": "/ftp/target/folder/",
+      "ftp_host": "ftp_host",
+      "ftp_user": "ftp_user",
+      "ftp_pass": "ftp_pass",
+      "excepted_dirs": [
+        "excepted_dir_1",
+        "excepted_dir_3",
+        "excepted_dir_2/excepted_dir_3"  
+      ],
+      "excepted_files": [
+      	"excepted_file_1",
+      	"excepted_file_2"
+      ],
+      "upload_files": [
+        "upload_file_1",
+        "excepted_dir_2/upload_file_2"
+      ]
+    },
+    {
+      "active": "0",
+      "force":"0",
+      "local_path": "/Published/Project/Folder2/",
+      "ftp_path": "/ftp2/taget/foder/",
+      "ftp_host": "ftp_host_2",
+      "ftp_user": "ftp_user_2",
+      "ftp_pass": "ftp_pass_2",
+      "excepted_dirs": [ 
+      ],
+      "excepted_files": [
+      ],
+      "upload_files": [
+      ]      
+    }    
+  ]
+}
