@@ -3,9 +3,9 @@
 NetPubPy is a script that makes easier to publish .NET projects to FTP server. Don't make a lot of effort to transfer your files and folders to FTP server! Make your configuration at once then use it again and again! By the way, you can publish one more projects at the same time. When you run the script, NetPubPy uploads app_offline.htm to FTP Server. Therefore while the publishing process continues, maintenance screen appears to web site visitors.
 
 
-```
-Caution: NetPubPy removes files beginning with 'App_' in 'Bin' folder at the FTP server side then uploads new ones!
-```
+
+**Caution:** NetPubPy removes files beginning with 'App_' in 'Bin' folder at the FTP server side then uploads new ones!
+
  
 
 ## Getting Started
