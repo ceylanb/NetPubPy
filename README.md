@@ -43,6 +43,7 @@ To test the script, you need to set some parameters in **config.json** file.
     {
       "active": "1",
       "force":"0",
+	  "delete_bin_folder":"0",
       "local_path": "/Published/Project/Folder/",
       "ftp_path": "/ftp/target/folder/",
       "ftp_host": "ftp_host",
