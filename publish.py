@@ -24,6 +24,7 @@ except ImportError:
 
 print(Style.BRIGHT + Fore.RED + "----------------------------------------")
 print(" # Coded by Ceylan Bozogullarindan")
+print(" # If you get Connection Error 10060, read the Microsoft fix: https://goo.gl/qwdTG5")
 print("----------------------------------------" + Style.RESET_ALL)
 
 baseDir = ""
@@ -32,7 +33,7 @@ def setBaseDir(directory):
 	global baseDir
 	baseDir = directory
 
-def updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs, excepted_files, upload_files, force):
+def updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs, excepted_files, upload_files, force, delete_bin_folder):
 	with ftputil.FTPHost(ftp_host, ftp_user, ftp_pass) as ftp_host:	
 		def deleteBinDir(path):
 			list = ftp_host.listdir(path)
@@ -64,7 +65,8 @@ def updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs,
 						uploadDir(localDir + fname + "/", ftpDir + fname + "/")
 					else:
 						if fname == "bin":
-							deleteBinDir(ftp_path + "bin/")
+							if delete_bin_folder == "1":
+								deleteBinDir(ftp_path + "bin/")
 							uploadDir(localDir + fname + "/", ftpDir + fname + "/")
 						elif localDir + fname in [baseDir + directory for directory in excepted_dirs]:
 							print("# " + Fore.RED + localDir + fname + Style.RESET_ALL + " is not uploaded.")
@@ -124,7 +126,7 @@ with open('config.json') as data_file:
 		excepted_files = ftp["excepted_files"]
 		upload_files = ftp["upload_files"]
 		force = ftp["force"]
+		delete_bin_folder = ftp["delete_bin_folder"]
 		if ftp["active"] == "1":
 			setBaseDir(local_path)			
-			updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs, excepted_files, upload_files, force)
-
+			updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs, excepted_files, upload_files, force, delete_bin_folder)
