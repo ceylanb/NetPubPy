@@ -33,7 +33,7 @@ def setBaseDir(directory):
 	global baseDir
 	baseDir = directory
 
-def updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs, excepted_files, upload_files, force, delete_bin_folder):
+def updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs, excepted_files, upload_files, force, delete_bin_folder, upload_dirs):
 	with ftputil.FTPHost(ftp_host, ftp_user, ftp_pass) as ftp_host:	
 		def deleteBinDir(path):
 			list = ftp_host.listdir(path)
@@ -59,10 +59,16 @@ def updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs,
 			list = os.listdir(localDir)
 			for fname in list:
 				if os.path.isdir(localDir + fname):				
-					if(ftp_host.path.exists(ftpDir + fname) != True):					
-						ftp_host.mkdir(ftpDir + fname)
-						print("# " +Fore.WHITE + ftpDir + fname + Style.RESET_ALL + " is created.")
-						uploadDir(localDir + fname + "/", ftpDir + fname + "/")
+					if(ftp_host.path.exists(ftpDir + fname) != True and ftp_host.path.exists(ftpDir + fname.lower()) != True): # Case sensitivity is disabled
+						try:
+							if localDir + fname in [baseDir + directory for directory in excepted_dirs]:
+								print("# " + Fore.RED + ftpDir + fname + Style.RESET_ALL + " is not created!")
+							else:					
+								ftp_host.mkdir(ftpDir + fname)
+								print("# " +Fore.WHITE + ftpDir + fname + Style.RESET_ALL + " is created.")
+								uploadDir(localDir + fname + "/", ftpDir + fname + "/")
+						except ftplib.all_errors as e:
+							print("# " + Fore.RED + ftpDir + fname + Style.RESET_ALL + " is not created! Error message: " + str(e))
 					else:
 						if fname == "bin":
 							if delete_bin_folder == "1":
@@ -97,20 +103,28 @@ def updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs,
 				if(ftp_host.upload(source, target)):
 					print("# " + Fore.WHITE + source + Style.RESET_ALL + " is uploaded.")
 			else:
-				if(ftp_host.upload_if_newer(source, target)):
-					print("# " + Fore.WHITE + source + Style.RESET_ALL + " is uploaded.")
-				else:
-					print("# " + Fore.WHITE + target + Style.RESET_ALL + " has already been uploaded.")
+				try:
+					if(ftp_host.upload_if_newer(source, target)):
+						print("# " + Fore.WHITE + source + Style.RESET_ALL + " is uploaded.")
+					else:
+						print("# " + Fore.WHITE + target + Style.RESET_ALL + " has already been uploaded.")
+				except ftplib.all_errors as e:
+					print("# " + Fore.RED + target + Style.RESET_ALL + " is not uploaded! Error message: " + str(e))
 
 		def uploadFiles(source, target):
 			for fname in upload_files:
 				uploadFile(source + fname, target + fname)
 
+		def uploadDirs(source, target):
+			for directory in upload_dirs:
+				uploadDir(source + directory, target + directory)
+
 		startTime = datetime.now()
-		uploadFile("app_offline.htm", ftp_path + "app_offline.htm")
+		#uploadFile("app_offline.htm", ftp_path + "app_offline.htm")
 		uploadDir(local_path, ftp_path)
 		uploadFiles(local_path, ftp_path)
-		deleteFile(ftp_path + "app_offline.htm")
+		uploadDirs(local_path, ftp_path)
+		#deleteFile(ftp_path + "app_offline.htm")
 		print(datetime.now() - startTime)
 	print("Completed.")
 
@@ -127,6 +141,9 @@ with open('config.json') as data_file:
 		upload_files = ftp["upload_files"]
 		force = ftp["force"]
 		delete_bin_folder = ftp["delete_bin_folder"]
+		upload_dirs = ftp["upload_dirs"]
+		
 		if ftp["active"] == "1":
 			setBaseDir(local_path)			
-			updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs, excepted_files, upload_files, force, delete_bin_folder)
+			updateFTP(local_path, ftp_path, ftp_host, ftp_user, ftp_pass, excepted_dirs, excepted_files, upload_files, force, delete_bin_folder, upload_dirs)
+

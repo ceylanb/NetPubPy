@@ -43,7 +43,7 @@ To test the script, you need to set some parameters in **config.json** file.
     {
       "active": "1",
       "force":"0",
-	  "delete_bin_folder":"0",
+	    "delete_bin_folder":"0",
       "local_path": "/Published/Project/Folder/",
       "ftp_path": "/ftp/target/folder/",
       "ftp_host": "ftp_host",
@@ -61,6 +61,9 @@ To test the script, you need to set some parameters in **config.json** file.
       "upload_files": [
         "upload_file_1",
         "excepted_dir_2/upload_file_2"
+      ],
+      "upload_dirs": [
+        "upload_dir/"
       ]
     },
     -------------- Ending for Project 1 ----------------------------
@@ -68,6 +71,7 @@ To test the script, you need to set some parameters in **config.json** file.
     {
       "active": "0",
       "force":"0",
+      "delete_bin_folder":"0",
       "local_path": "/Published/Project/Folder2/",
       "ftp_path": "/ftp2/taget/foder/",
       "ftp_host": "ftp_host_2",
@@ -78,7 +82,9 @@ To test the script, you need to set some parameters in **config.json** file.
       "excepted_files": [
       ],
       "upload_files": [
-      ]      
+      ],
+      "upload_dirs": [
+      ]
     }
     -------------- Ending for Project 2 ----------------------------        
   ]

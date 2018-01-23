@@ -21,11 +21,15 @@
       "upload_files": [
         "upload_file_1",
         "excepted_dir_2/upload_file_2"
-      ]
+      ],
+      "upload_dirs": [
+        "upload_dir/"
+      ]      
     },
     {
       "active": "0",
       "force":"0",
+      "delete_bin_folder":"0",
       "local_path": "/Published/Project/Folder2/",
       "ftp_path": "/ftp2/taget/foder/",
       "ftp_host": "ftp_host_2",
@@ -36,7 +40,9 @@
       "excepted_files": [
       ],
       "upload_files": [
-      ]      
+      ],      
+      "upload_dirs": [
+      ]
     }    
   ]
 }
